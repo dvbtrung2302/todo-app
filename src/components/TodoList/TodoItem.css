@@ -42,6 +42,7 @@
 .TodoItem label {
   margin-left: 15px;
   flex-grow: 6;
+  transition: all 0.4s;
 }
 
 .TodoItem button {
@@ -56,13 +57,27 @@
 }
 
 
-.TodoItem button:before {
+.TodoItem button::before {
   content: '\f00d';
   position: absolute;
   font-family: 'Font Awesome 5 Pro';
   font-size: 20px;
-  font-weight: 300;
+  font-weight: 600;
   color: #cc9a9a;
   top: 0;
   left: 0;
+  display: none;
+}
+
+.TodoItem:hover button::before {
+  display: block;
+}
+
+.TodoItem button:hover::before {
+  color: #af5b5e;
+}
+
+.TodoItem .completed {
+  opacity: 0.4;
+  text-decoration: line-through;
 }

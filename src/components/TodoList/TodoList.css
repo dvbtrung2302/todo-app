@@ -5,21 +5,37 @@
   list-style-type: none;
 }
 
-.TodoList .toggle-all {
+.TodoList > input {
   appearance: none;
   margin: 0;
   position: absolute;
   outline: none;
 }
 
-.TodoList .toggle-all:before {
+.TodoList > input::before {
   content: '\f078';
   position: absolute;
   font-family: 'Font Awesome 5 Pro';
-  font-weight: 300;
+  font-weight: 600;
   top: -45px;
   color: #737377;
   opacity: 0.4;
   font-size: 30px;
   margin-left: 15px; 
+}
+
+.TodoList .checked::before {
+  content: '\f078';
+  position: absolute;
+  font-family: 'Font Awesome 5 Pro';
+  font-weight: 600;
+  top: -45px;
+  color: #737377;
+  opacity: 1;
+  font-size: 30px;
+  margin-left: 15px; 
+}
+
+.TodoList .display-none::before {
+  display: none;
 }
