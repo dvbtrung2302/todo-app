@@ -13,9 +13,9 @@ class TodoList extends React.Component {
         <input 
           type="checkbox"
           className={
-            !todoItems.length ? 'display-none' :
-            (isTickAll ? 'checked' : null)
+            !todoItems.length ? 'display-none' : null
           }
+          checked={isTickAll}
           onChange={this.handleToggleAllClicked}
         />
         {

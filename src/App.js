@@ -8,6 +8,7 @@ class App extends React.Component {
   constructor() {
     super();
     this.state = {
+      status: 'All',
       isTickAll: false,
       todoItems : [
         { title: 'Todo 1', isCompleted: true},
@@ -83,21 +84,54 @@ class App extends React.Component {
     })
   }
 
+  filterByStatus = ( status = '') => {
+    const { todoItems } = this.state;
+    switch (status) {
+      case 'Active':
+        return todoItems.filter(item => !item.isCompleted)
+      case 'Completed':
+        return todoItems.filter(item => item.isCompleted)
+      default:
+        return todoItems
+    }
+  }
+
+  setStatus = (status = '') => {
+    this.setState({
+      status: status
+    })
+  }
+
+  clearCompletedItems = () => {
+    const { todoItems } = this.state;
+    this.setState({
+      todoItems: todoItems.filter(item => !item.isCompleted)
+    });
+  }
+
   render() {
-    const { todoItems, isTickAll } = this.state;  
+    const { todoItems, isTickAll, status } = this.state;
     return (
       <div className="App">
         <Header 
           addItem={this.addItem}
         />
         <TodoList 
-          todoItems={todoItems}
+          todoItems={this.filterByStatus(status)}
           markCompleted={this.markCompleted}
           removeItem={this.removeItem}
           markCompletedAll={this.markCompletedAll}
           isTickAll={isTickAll}
         />
-        <Footer />
+        {
+          todoItems.length !== 0 &&
+          <Footer 
+            todoItems={todoItems}  
+            setStatus={this.setStatus}
+            status={status}
+            clearCompletedItems={this.clearCompletedItems}
+          />
+        }
       </div>
     );
   }

@@ -2,21 +2,85 @@ import React from 'react';
 import './Footer.css'
 
 class Footer extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      filterBtns: [
+        { 
+          name: 'All', 
+          href: '/#', 
+          onClick: () => {props.setStatus('All')}
+        },
+        { 
+          name: 'Active', 
+          href: '/#/active',
+          onClick: () => {props.setStatus('Active')}
+        },
+        { 
+          name: 'Completed', 
+          href: '/#/completed',
+          onClick: () => {props.setStatus('Completed')}
+        }
+      ]
+    }
+  }
+
+  itemsLeft = () => {
+    const { todoItems } = this.props;
+    const itemsLeft = todoItems.reduce((acc, item) => {
+      if (!item.isCompleted) {
+        acc += 1;
+      }
+      return acc;
+    }, 0); 
+    return itemsLeft;
+  }
+
   render() {
+    const { filterBtns } = this.state;
+    const { status, clearCompletedItems } = this.props;
+    const itemsLeft = this.itemsLeft();
     return(
       <footer className="Footer">
         <span 
           className="todo-count"
         >
-          2 Items Left
+          {itemsLeft} {itemsLeft === 1 ? 'item' : 'items'} Left 
         </span>
         <ul className="filter">
-          <li><a href="#/" className="selected">All</a></li>
-          <li><a href="#/active">Active</a></li>
-          <li><a href="#/completed">Completed</a></li>
+          { 
+            filterBtns.map((btn, index) => 
+            <FilterBtn 
+              key={index} 
+              btn={btn}
+              status={status}
+            />)
+          }
         </ul>
-        <div className="clear-completed">Clear completed</div>
+        <div 
+          className="clear-completed"
+          onClick={() => {clearCompletedItems()}}
+        >
+          Clear completed
+        </div>
       </footer>
+    );
+  }
+}
+
+class FilterBtn extends React.Component {
+  render() {
+    const { btn, status } = this.props;
+    return(
+      <li className="filterBtn">
+        <a 
+          href={btn.href} 
+          className={ status === btn.name ? 'selected' : null}
+          onClick={btn.onClick}
+        >
+            {btn.name}
+        </a>
+      </li>
     );
   }
 }
