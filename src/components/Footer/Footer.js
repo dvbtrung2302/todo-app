@@ -5,7 +5,11 @@ class Footer extends React.Component {
   render() {
     return(
       <footer className="Footer">
-        <span className="todo-count">2 Items Left</span>
+        <span 
+          className="todo-count"
+        >
+          2 Items Left
+        </span>
         <ul className="filter">
           <li><a href="#/" className="selected">All</a></li>
           <li><a href="#/active">Active</a></li>

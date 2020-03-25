@@ -16,9 +16,15 @@ class App extends React.Component {
     }
   }
 
+  checkIsTickAll = (list = []) => {
+    if (list.find(item => !item.isCompleted)) {
+      return false;
+    }
+    return true;
+  }
+
   markCompleted = (item = {}) => {
     const { todoItems } = this.state;
-    let { isTickAll } = this.state;
     const isCompleted = item.isCompleted;
     const list = todoItems.map(value => {
       if (value === item) {
@@ -27,11 +33,9 @@ class App extends React.Component {
         return { ...value};
       }
     });
-    const isAllCompleted = 
-    list.find(item => !item.isCompleted) ? false : true;
-    isTickAll = isAllCompleted ? true : false;
+    const isAllCompleted = this.checkIsTickAll(list);
     this.setState({
-      isTickAll: isTickAll,
+      isTickAll: isAllCompleted,
       todoItems: list
     });
   }
@@ -39,11 +43,17 @@ class App extends React.Component {
   removeItem = (item = {}) => {
     const { todoItems } = this.state;
     const index = todoItems.indexOf(item);
+
+    const list = [
+      ...todoItems.slice(0, index),
+      ...todoItems.slice(index + 1)
+    ];
+
+    const isAllCompleted = this.checkIsTickAll(list);
+
     this.setState({
-      todoItems: [
-        ...todoItems.slice(0, index),
-        ...todoItems.slice(index + 1)
-      ]
+      isTickAll: isAllCompleted,
+      todoItems: list
     });
   }
 
@@ -64,15 +74,11 @@ class App extends React.Component {
 
   markCompletedAll = () => {
     const { todoItems } =  this.state;
-    let { isTickAll } = this.state;
-    const isAllCompleted = 
-    todoItems.find(item => !item.isCompleted) ? false : true;
-    isTickAll = isAllCompleted ? false : true;
-    console.log(isAllCompleted);
+    const isAllCompleted = this.checkIsTickAll(todoItems);
     this.setState({
-      isTickAll: isTickAll,
+      isTickAll: !isAllCompleted,
       todoItems: todoItems.map(item => {
-        return { ...item, isCompleted: isTickAll}
+        return { ...item, isCompleted: !isAllCompleted}
       })
     })
   }
