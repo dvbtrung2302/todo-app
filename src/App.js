@@ -7,25 +7,19 @@ import './App.css';
 class App extends React.Component {
   constructor() {
     super();
-    this.state = {
-      status: 'All',
-      isTickAll: false,
-      todoItems : [
-      ]
-    }
-  }
-
-  componentDidMount() {
     let data = JSON.parse(localStorage.getItem('data'));
-    console.log(data);
-    if (data.todoItems === null) {
-      data.todoItems = [];
+    if (data === null) {
+      data = {
+        status: 'All',
+        isTickAll: true,
+        todoItems: []
+      }
     }
-    this.setState({
-      isTickAll: data.isTickAll,
+    this.state = {
       status: data.status,
-      todoItems: data.todoItems
-    })
+      isTickAll: data.isTickAll,
+      todoItems : data.todoItems
+    }
   }
 
   componentDidUpdate(prevProps, nextState) {
@@ -142,21 +136,25 @@ class App extends React.Component {
 
   render() {
     const { todoItems, isTickAll, status } = this.state;
+    console.log('App rendering...');
     return (
       <div className="App">
         <Header 
           addItem={this.addItem}
         />
-        <TodoList 
-          length={todoItems.length}
-          todoItems={this.filterByStatus(status)}
-          markCompleted={this.markCompleted}
-          removeItem={this.removeItem}
-          markCompletedAll={this.markCompletedAll}
-          isTickAll={isTickAll}
-          status={status}
-          editItem={this.editItem}
-        />
+        {
+          todoItems.length !== 0 ? 
+          <TodoList 
+            length={todoItems.length}
+            todoItems={this.filterByStatus(status)}
+            markCompleted={this.markCompleted}
+            removeItem={this.removeItem}
+            markCompletedAll={this.markCompletedAll}
+            isTickAll={isTickAll}
+            status={status}
+            editItem={this.editItem}
+          /> : null
+        }
         {
           todoItems.length !== 0 &&
           <Footer 

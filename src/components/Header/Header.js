@@ -23,7 +23,15 @@ class Header extends React.Component {
     })
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    if(nextState !== this.state) {
+      return true;
+    } 
+    return false;
+  }
+
   render() {
+    console.log('Header rendering...');
     return (
       <header className="Header">
         <h1 className="title">todos</h1>

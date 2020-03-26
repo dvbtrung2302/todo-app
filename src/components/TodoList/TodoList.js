@@ -6,7 +6,15 @@ class TodoList extends React.Component {
     this.props.markCompletedAll();
   }
   
+  shouldComponentUpdate(nextProps, nextState) {
+    if(this.props === nextProps) {
+      return false;
+    }
+    return true;
+  } 
+
   render() {
+    console.log('Todo list rendering...');
     const { 
       todoItems, 
       markCompleted, 

@@ -37,6 +37,7 @@ class Footer extends React.Component {
   }
 
   render() {
+    console.log('Footer rendering...');
     const { filterBtns } = this.state;
     const { status, clearCompletedItems, todoItems } = this.props;
     const itemsLeft = this.itemsLeft();

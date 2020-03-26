@@ -54,6 +54,7 @@ class TodoItem extends React.Component {
   }
 
   render() {
+    console.log('Todo Item rendering...');
     const { item } = this.props;
     const { isEditing } = this.state;
     return(
