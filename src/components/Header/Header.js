@@ -1,5 +1,6 @@
 import React from 'react';
 import './Header.css';
+import PropTypes from 'prop-types';
 
 class Header extends React.Component {
   constructor(props) {
@@ -8,6 +9,14 @@ class Header extends React.Component {
       text: ''
     }
   }
+  
+  shouldComponentUpdate(nextProps, nextState) {
+    if(nextState !== this.state) {
+      return true;
+    } 
+    return false;
+  }
+
   handleOnType = (event) =>  {
     if (event.keyCode === 13) {
       this.props.addItem(event.target.value);
@@ -21,13 +30,6 @@ class Header extends React.Component {
     this.setState({
       text: event.target.value
     })
-  }
-
-  shouldComponentUpdate(nextProps, nextState) {
-    if(nextState !== this.state) {
-      return true;
-    } 
-    return false;
   }
 
   render() {
@@ -46,6 +48,10 @@ class Header extends React.Component {
       </header>
     );
   }
+}
+
+Header.propTypes = {
+  addItem: PropTypes.func
 }
 
 export default Header;

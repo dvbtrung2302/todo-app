@@ -1,5 +1,6 @@
 import React from 'react';
-import './Footer.css'
+import './Footer.css';
+import PropTypes from 'prop-types';
 
 class Footer extends React.Component {
   constructor(props) {
@@ -67,6 +68,9 @@ class Footer extends React.Component {
             Clear completed
           </div>
         }
+        <div className="description">
+          <p>Double-click to edit a todo (Only in desktop)</p>
+        </div>
       </footer>
     );
   }
@@ -89,4 +93,9 @@ class FilterBtn extends React.Component {
   }
 }
 
+Footer.propTypes = {
+  status: PropTypes.string,
+  clearCompletedItems: PropTypes.func,
+  todoItems: PropTypes.array
+}
 export default Footer;

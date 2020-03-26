@@ -1,5 +1,6 @@
 import React from 'react';
 import './TodoItem.css';
+import PropTypes from 'prop-types';
 
 class TodoItem extends React.Component {
   constructor(props) {
@@ -7,14 +8,6 @@ class TodoItem extends React.Component {
     this.state = {
       isEditing: false,
     }
-  }
-
-  handleCompleteClicked = () => {
-    this.props.markCompleted(this.props.item);
-  }
-
-  handleDestroyClicked = () => {
-      this.props.removeItem(this.props.item);
   }
 
   handleItemDoubleClick = () => {
@@ -53,9 +46,20 @@ class TodoItem extends React.Component {
     }
   }
 
+  shouldComponentUpdate(nextProps, nextState) {
+    if (this.props.item === nextProps.item && this.state.isEditing === nextState.isEditing) {
+      return false;
+    }
+    return true;
+  }
+
   render() {
     console.log('Todo Item rendering...');
-    const { item } = this.props;
+    const { 
+      item, 
+      markCompleted, 
+      removeItem 
+    } = this.props;
     const { isEditing } = this.state;
     return(
       <li className="TodoItem">
@@ -64,7 +68,7 @@ class TodoItem extends React.Component {
           <input 
             type="checkbox" 
             checked={item.isCompleted}
-            onChange={this.handleCompleteClicked}
+            onChange={() => {markCompleted(item)}}
           />
         }
         {
@@ -87,12 +91,24 @@ class TodoItem extends React.Component {
         {
           !isEditing &&
           <button 
-            onClick={this.handleDestroyClicked}
+            onClick={() => {removeItem(item)}}
           ></button>
         }
       </li>
     );
   }
 }
+
+TodoItem.propTypes = {
+  item: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    isCompleted: PropTypes.bool.isRequired
+  }),
+  markCompleted: PropTypes.func,
+  removeItem: PropTypes.func,
+  editItem: PropTypes.func
+}
+
+
 
 export default TodoItem;

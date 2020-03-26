@@ -139,31 +139,35 @@ class App extends React.Component {
     console.log('App rendering...');
     return (
       <div className="App">
-        <Header 
-          addItem={this.addItem}
-        />
-        {
-          todoItems.length !== 0 ? 
-          <TodoList 
-            length={todoItems.length}
-            todoItems={this.filterByStatus(status)}
-            markCompleted={this.markCompleted}
-            removeItem={this.removeItem}
-            markCompletedAll={this.markCompletedAll}
-            isTickAll={isTickAll}
-            status={status}
-            editItem={this.editItem}
-          /> : null
-        }
-        {
-          todoItems.length !== 0 &&
-          <Footer 
-            todoItems={todoItems}  
-            setStatus={this.setStatus}
-            status={status}
-            clearCompletedItems={this.clearCompletedItems}
-          />
-        }
+        <div className="container">
+          <div className="Main col-lg-6 mx-auto p-0">
+            <Header 
+              addItem={this.addItem}
+            />
+            {
+              todoItems.length !== 0 ? 
+              <TodoList 
+                length={todoItems.length}
+                todoItems={this.filterByStatus(status)}
+                markCompleted={this.markCompleted}
+                removeItem={this.removeItem}
+                markCompletedAll={this.markCompletedAll}
+                isTickAll={isTickAll}
+                status={status}
+                editItem={this.editItem}
+              /> : null
+            }
+            {
+              todoItems.length !== 0 &&
+              <Footer 
+                todoItems={todoItems}  
+                setStatus={this.setStatus}
+                status={status}
+                clearCompletedItems={this.clearCompletedItems}
+              />
+            }
+          </div>
+        </div>
       </div>
     );
   }

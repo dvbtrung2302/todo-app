@@ -1,18 +1,9 @@
 import React from 'react';
 import TodoItem from './TodoItem';
 import './TodoList.css';
-class TodoList extends React.Component {
-  handleToggleAllClicked = () => {
-    this.props.markCompletedAll();
-  }
-  
-  shouldComponentUpdate(nextProps, nextState) {
-    if(this.props === nextProps) {
-      return false;
-    }
-    return true;
-  } 
+import PropTypes from 'prop-types';
 
+class TodoList extends React.Component {
   render() {
     console.log('Todo list rendering...');
     const { 
@@ -21,7 +12,8 @@ class TodoList extends React.Component {
       removeItem, 
       isTickAll,
       length,
-      editItem
+      editItem,
+      markCompletedAll
     } = this.props;
     return (
       <ul className="TodoList">
@@ -31,7 +23,7 @@ class TodoList extends React.Component {
             !length ? 'display-none' : null
           }
           checked={isTickAll}
-          onChange={this.handleToggleAllClicked}
+          onChange={() => {markCompletedAll()}}
         />
         {
           todoItems.map((item, index) => 
@@ -46,6 +38,15 @@ class TodoList extends React.Component {
       </ul>
     );
   }
+}
+
+TodoList.propTypes = {
+  todoItems: PropTypes.array, 
+  markCompleted: PropTypes.func, 
+  removeItem: PropTypes.func, 
+  isTickAll: PropTypes.bool,
+  length: PropTypes.number,
+  editItem: PropTypes.func
 }
 
 export default TodoList;

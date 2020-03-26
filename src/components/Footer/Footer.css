@@ -40,3 +40,33 @@
 .selected {
   border-color: rgba(175, 47, 47, 0.2)!important;
 }
+
+.Footer::before {
+  content: '';
+  height: 50px;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: absolute;
+  pointer-events:none;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, 0.2),
+  0 8px 0 -3px #fff,
+  0 9px 1px -3px rgba(0, 0, 0, 0.2),
+  0 16px 0 -6px #fff,
+  0 17px 2px -6px rgba(0, 0, 0, 0.2);
+}
+
+.Footer .description {
+  position: absolute;
+  margin-top: 65px;
+  color: #bfbfbf;
+  font-size: 12px;
+  width: 100%;
+  text-align: center;
+}
+
+@media (max-width: 576px) {
+  .Footer {
+    font-size: 10px;
+  }
+}
