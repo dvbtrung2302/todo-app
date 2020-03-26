@@ -38,7 +38,7 @@ class Footer extends React.Component {
 
   render() {
     const { filterBtns } = this.state;
-    const { status, clearCompletedItems } = this.props;
+    const { status, clearCompletedItems, todoItems } = this.props;
     const itemsLeft = this.itemsLeft();
     return(
       <footer className="Footer">
@@ -57,12 +57,15 @@ class Footer extends React.Component {
             />)
           }
         </ul>
-        <div 
-          className="clear-completed"
-          onClick={() => {clearCompletedItems()}}
-        >
-          Clear completed
-        </div>
+        {
+          itemsLeft < todoItems.length &&
+          <div 
+            className="clear-completed"
+            onClick={() => {clearCompletedItems()}}
+          >
+            Clear completed
+          </div>
+        }
       </footer>
     );
   }

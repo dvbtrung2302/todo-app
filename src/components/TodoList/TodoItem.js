@@ -2,6 +2,12 @@ import React from 'react';
 import './TodoItem.css';
 
 class TodoItem extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      isEditing: false,
+    }
+  }
 
   handleCompleteClicked = () => {
     this.props.markCompleted(this.props.item);
@@ -11,23 +17,78 @@ class TodoItem extends React.Component {
       this.props.removeItem(this.props.item);
   }
 
+  handleItemDoubleClick = () => {
+    this.setState({
+      isEditing: true
+    })
+  }
+
+  handleItemEdit = (item) => {
+    return(event) => {
+      const value = event.target.value;
+      if (event.keyCode === 13) {
+        if (value === '') {
+          this.props.removeItem(item);
+        } else {
+          this.props.editItem(item, value);
+        }
+        this.setState({
+          isEditing: false
+        })
+      }
+    }
+  }
+
+  handleItemOnBlur = (item) => {
+    return(event) => {
+      const value = event.target.value;
+      if (value === '') {
+        this.props.removeItem(item);
+      } else {
+        this.props.editItem(item, value);
+      }
+      this.setState({
+        isEditing: false
+      }) 
+    }
+  }
+
   render() {
     const { item } = this.props;
+    const { isEditing } = this.state;
     return(
       <li className="TodoItem">
-        <input 
-          type="checkbox" 
-          checked={item.isCompleted}
-          onChange={this.handleCompleteClicked}
-        />
-        <label 
-          className={item.isCompleted ? 'completed' : null}
-        >
-          {item.title}
-        </label>
-        <button 
-          onClick={this.handleDestroyClicked}
-        ></button>
+        { 
+          !isEditing &&
+          <input 
+            type="checkbox" 
+            checked={item.isCompleted}
+            onChange={this.handleCompleteClicked}
+          />
+        }
+        {
+          !this.state.isEditing ? 
+          <label 
+            className={item.isCompleted ? 'completed' : null}
+            onDoubleClick={this.handleItemDoubleClick}  
+          >
+            {item.title}
+          </label> :
+          <input 
+            type="text"
+            className="edit"
+            autoFocus
+            onBlur={this.handleItemOnBlur(item)}
+            onKeyUp={this.handleItemEdit(item)}
+            defaultValue={item.title}
+          />
+        }
+        {
+          !isEditing &&
+          <button 
+            onClick={this.handleDestroyClicked}
+          ></button>
+        }
       </li>
     );
   }

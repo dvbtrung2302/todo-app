@@ -7,13 +7,20 @@ class TodoList extends React.Component {
   }
   
   render() {
-    const { todoItems, markCompleted, removeItem, isTickAll } = this.props;
+    const { 
+      todoItems, 
+      markCompleted, 
+      removeItem, 
+      isTickAll,
+      length,
+      editItem
+    } = this.props;
     return (
       <ul className="TodoList">
         <input 
           type="checkbox"
           className={
-            !todoItems.length ? 'display-none' : null
+            !length ? 'display-none' : null
           }
           checked={isTickAll}
           onChange={this.handleToggleAllClicked}
@@ -25,7 +32,7 @@ class TodoList extends React.Component {
             item={item} 
             markCompleted={markCompleted}
             removeItem={removeItem}
-
+            editItem={editItem}
           />)
         }
       </ul>
