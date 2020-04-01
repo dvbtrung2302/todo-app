@@ -1,5 +1,6 @@
 import React from 'react';
 import './TodoItem.css';
+import AppContext from '../../contexts/AppContext';
 import PropTypes from 'prop-types';
 
 class TodoItem extends React.Component {
@@ -16,14 +17,14 @@ class TodoItem extends React.Component {
     })
   }
 
-  handleItemEdit = (item) => {
+  handleItemEdit = (item, removeItem, editItem) => {
     return(event) => {
       const value = event.target.value;
       if (event.keyCode === 13) {
         if (value === '') {
-          this.props.removeItem(item);
+          removeItem(item);
         } else {
-          this.props.editItem(item, value);
+          editItem(item, value);
         }
         this.setState({
           isEditing: false
@@ -32,13 +33,13 @@ class TodoItem extends React.Component {
     }
   }
 
-  handleItemOnBlur = (item) => {
+  handleItemOnBlur = (item, removeItem, editItem) => {
     return(event) => {
       const value = event.target.value;
       if (value === '') {
-        this.props.removeItem(item);
+        removeItem(item);
       } else {
-        this.props.editItem(item, value);
+        editItem(item, value);
       }
       this.setState({
         isEditing: false
@@ -55,21 +56,21 @@ class TodoItem extends React.Component {
 
   render() {
     console.log('Todo Item rendering...');
-    const { 
-      item, 
-      markCompleted, 
-      removeItem 
-    } = this.props;
+    const { item } = this.props;
     const { isEditing } = this.state;
     return(
       <li className="TodoItem">
         { 
           !isEditing &&
-          <input 
-            type="checkbox" 
-            checked={item.isCompleted}
-            onChange={() => {markCompleted(item)}}
-          />
+          <AppContext.Consumer>
+            {({ markCompleted }) => 
+            <input 
+              type="checkbox" 
+              checked={item.isCompleted}
+              onChange={() => {markCompleted(item)}}
+            />
+            } 
+          </AppContext.Consumer>       
         }
         {
           !this.state.isEditing ? 
@@ -79,20 +80,26 @@ class TodoItem extends React.Component {
           >
             {item.title}
           </label> :
-          <input 
-            type="text"
-            className="edit"
-            autoFocus
-            onBlur={this.handleItemOnBlur(item)}
-            onKeyUp={this.handleItemEdit(item)}
-            defaultValue={item.title}
-          />
+          <AppContext.Consumer>
+            {({ removeItem, editItem }) => 
+            <input 
+              type="text"
+              className="edit"
+              autoFocus
+              onBlur={this.handleItemOnBlur(item, removeItem, editItem)}
+              onKeyUp={this.handleItemEdit(item, removeItem, editItem)}
+              defaultValue={item.title}
+            />}
+          </AppContext.Consumer>
         }
         {
           !isEditing &&
-          <button 
-            onClick={() => {removeItem(item)}}
-          ></button>
+          <AppContext.Consumer>
+            {({ removeItem }) => 
+            <button 
+              onClick={() => {removeItem(item)}}
+            ></button>}  
+          </AppContext.Consumer>
         }
       </li>
     );

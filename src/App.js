@@ -2,21 +2,26 @@ import React from 'react';
 import Header from './components/Header/Header';
 import TodoList from './components/TodoList/TodoList';
 import Footer from './components/Footer/Footer';
+import AppContext from './contexts/AppContext';
 import './App.css';
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route
+} from "react-router-dom";
 
 class App extends React.Component {
   constructor() {
     super();
     let data = JSON.parse(localStorage.getItem('data'));
-    if (data === null) {
+    if (!data) {
       data = {
-        status: 'All',
-        isTickAll: true,
-        todoItems: []
+        todoItems: [],
+        isTickAll: false
       }
     }
+    data.todoItems = data.todoItems ? data.todoItems : [];
     this.state = {
-      status: data.status,
       isTickAll: data.isTickAll,
       todoItems : data.todoItems
     }
@@ -27,7 +32,7 @@ class App extends React.Component {
       localStorage.setItem('data', JSON.stringify(this.state))
     }
   }
-   
+
   checkIsTickAll = (list = []) => {
     if (list.find(item => !item.isCompleted)) {
       return false;
@@ -95,23 +100,7 @@ class App extends React.Component {
     })
   }
 
-  filterByStatus = ( status = '') => {
-    const { todoItems } = this.state;
-    switch (status) {
-      case 'Active':
-        return todoItems.filter(item => !item.isCompleted)
-      case 'Completed':
-        return todoItems.filter(item => item.isCompleted)
-      default:
-        return todoItems
-    }
-  }
-
-  setStatus = (status = '') => {
-    this.setState({
-      status: status
-    })
-  }
+  
 
   clearCompletedItems = () => {
     const { todoItems } = this.state;
@@ -133,43 +122,78 @@ class App extends React.Component {
       })
     })
   }
-
+  
   render() {
-    const { todoItems, isTickAll, status } = this.state;
+    const { todoItems, isTickAll } = this.state;
     console.log('App rendering...');
     return (
-      <div className="App">
-        <div className="container">
-          <div className="Main col-lg-6 mx-auto p-0">
-            <Header 
-              addItem={this.addItem}
-            />
-            {
-              todoItems.length !== 0 ? 
-              <TodoList 
-                length={todoItems.length}
-                todoItems={this.filterByStatus(status)}
-                markCompleted={this.markCompleted}
-                removeItem={this.removeItem}
-                markCompletedAll={this.markCompletedAll}
-                isTickAll={isTickAll}
-                status={status}
-                editItem={this.editItem}
-              /> : null
-            }
-            {
-              todoItems.length !== 0 &&
-              <Footer 
-                todoItems={todoItems}  
-                setStatus={this.setStatus}
-                status={status}
-                clearCompletedItems={this.clearCompletedItems}
-              />
-            }
+      <AppContext.Provider value={{
+        markCompleted: this.markCompleted,
+        removeItem: this.removeItem,
+        editItem: this.editItem
+      }}>
+        <Router>
+          <div className="App">
+            <div className="container">
+              <div className="Main col-lg-6 mx-auto p-0">
+                <Header 
+                  addItem={this.addItem}
+                />
+                {
+                  todoItems.length !== 0 ? 
+                  <Switch>
+                    <Route 
+                      exact path='/' 
+                      render={props => 
+                        <div>
+                          <TodoList 
+                            todoItems={todoItems}
+                            markCompletedAll={this.markCompletedAll}
+                            isTickAll={isTickAll}
+                            {...props}
+                          />
+                          <Footer 
+                            todoItems={todoItems}  
+                            clearCompletedItems={this.clearCompletedItems}
+                            {...props}
+                          />
+                        </div> 
+                      }/>
+                    <Route 
+                      path='/:status'
+                      render={props => 
+                        <div>
+                          <TodoList 
+                            todoItems={todoItems}
+                            markCompletedAll={this.markCompletedAll}
+                            isTickAll={isTickAll}
+                            {...props}
+                          />
+                          <Footer 
+                            todoItems={todoItems}  
+                            clearCompletedItems={this.clearCompletedItems}
+                            {...props}
+                          />
+                        </div> 
+                      }
+                    />                  
+                  </Switch>
+                  : null
+                }
+              </div>
+            </div>/
           </div>
-        </div>
-      </div>
+        </Router>
+      </AppContext.Provider>
     );
   }
 }
+
+// function RenderByStatus(props) {
+//   const { status } = useParams();
+//   return(
+//   <div>Test {status}</div>
+//   )
+// }
+
 export default App;

@@ -1,6 +1,9 @@
 import React from 'react';
 import './Footer.css';
 import PropTypes from 'prop-types';
+import {
+  Link
+} from "react-router-dom";
 
 class Footer extends React.Component {
   constructor(props) {
@@ -8,19 +11,13 @@ class Footer extends React.Component {
     this.state = {
       filterBtns: [
         { 
-          name: 'All', 
-          href: '/#', 
-          onClick: () => {props.setStatus('All')}
+          name: 'all', 
         },
         { 
-          name: 'Active', 
-          href: '/#/active',
-          onClick: () => {props.setStatus('Active')}
+          name: 'active'
         },
         { 
-          name: 'Completed', 
-          href: '/#/completed',
-          onClick: () => {props.setStatus('Completed')}
+          name: 'completed'
         }
       ]
     }
@@ -40,8 +37,10 @@ class Footer extends React.Component {
   render() {
     console.log('Footer rendering...');
     const { filterBtns } = this.state;
-    const { status, clearCompletedItems, todoItems } = this.props;
+    const { clearCompletedItems, todoItems } = this.props;
     const itemsLeft = this.itemsLeft();
+    let status = this.props.match.params.status;
+    status = !status ? 'all' : status;
     return(
       <footer className="Footer">
         <span 
@@ -77,24 +76,27 @@ class Footer extends React.Component {
 }
 
 class FilterBtn extends React.Component {
+  capitalize = (s = '') => {
+    if (typeof s !== 'string') return ''
+    return s.charAt(0).toUpperCase() + s.slice(1)
+  }
+
   render() {
     const { btn, status } = this.props;
     return(
       <li className="filterBtn">
-        <a 
-          href={btn.href} 
-          className={ status === btn.name ? 'selected' : null}
-          onClick={btn.onClick}
-        >
-            {btn.name}
-        </a>
+        <Link 
+          to={btn.name === 'all' ? `/`: `/${btn.name}`}
+          className={ status === btn.name ? 'selected' : null}    
+        > 
+          {this.capitalize(btn.name)} 
+        </Link>
       </li>
     );
   }
 }
 
 Footer.propTypes = {
-  status: PropTypes.string,
   clearCompletedItems: PropTypes.func,
   todoItems: PropTypes.array
 }
