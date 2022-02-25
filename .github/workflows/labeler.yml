@@ -2,7 +2,6 @@ name: Add tag of squad to each PR
 
 on:
   pull_request:
-    types: [opened]
 
 jobs:
   label:
@@ -15,11 +14,6 @@ jobs:
 
       - uses: srvaroa/labeler@master
         with:
-          config_path: .github/workflows/create-squad-tag-in-pr.yml
+          config_path: .github/workflows/labeler.yml
         env:
           GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
-        version: 1
-        labels:
-          - label: "User Squad"
-            files:
-              - "src/squads/user/**"
