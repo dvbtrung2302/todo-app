@@ -2,4 +2,4 @@ version: 1
 labels:
   - label: "User Squad"
     files:
-      - "src/squads/user/**"
+      - "src/squads/user/.*"
