@@ -1,5 +1,5 @@
 version: 1
-  labels:
-    - label: "User Squad"
-      files:
-        - "src/squads/user/**"
+labels:
+  - label: "User Squad"
+    files:
+      - "src/squads/user/**"
