@@ -1,25 +1,5 @@
 
-# Communication Squad
-src/squads/communication/** @minhhy2801 @ptthanh0606 @trinhdungbk
-
-# Lesson Squad
-src/squads/lesson/** @binh1298 @dtkhuongdev @7ranquocbao @linhkhanh @thanhloc1993 @baotranmanabie
-
-# Syllabus Squad
-src/squads/syllabus/** @hieusmiths @krystalnguyen
-
 # User Management Squad
-src/squads/user/** @Nguyen-Quang-Khai @minhthao56 @crissang @hoangtule @sondevmanabie @thainv-manabie @dvbtrung2302
+src/squads/user/** @dvbtrung2302
 
-# Payment Squad
-src/squads/payment/** @binh1298 @minhhy2801 @ptthanh0606 @trinhdungbk @mickoangelolacap @wgslancer @carvinsingian @DuyThanh-99 @nphdiem
 
-# Entry/Exit Squad
-src/squads/entry-exit/** @chrstnnglc @gabrielbrrll
-
-# Common components, hooks
-src/components/** @vctqs1 @phi0411141 @minhhy2801 @binh1298 @Nguyen-Quang-Khai
-src/hooks/** @vctqs1 @phi0411141 @minhhy2801 @binh1298 @Nguyen-Quang-Khai
-
-# Global style
-src/styles/** @minhhy2801 @binh1298 @Nguyen-Quang-Khai
