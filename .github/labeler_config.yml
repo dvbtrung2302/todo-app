@@ -1,0 +1,9 @@
+version: 1
+labels:
+  - label: "User Squad"
+    files:
+      - "src/squads/user/.*"
+
+  - label: "Payment Squad"
+    files:
+      - "src/squads/payment/.*"

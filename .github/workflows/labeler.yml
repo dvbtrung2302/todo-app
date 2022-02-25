@@ -1,0 +1,19 @@
+name: Add tag of squad to each PR
+
+on:
+  pull_request:
+
+jobs:
+  label:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: "0"
+
+      - uses: srvaroa/labeler@master
+        with:
+          config_path: .github/labeler_config.yml
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
