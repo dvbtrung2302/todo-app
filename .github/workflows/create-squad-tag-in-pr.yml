@@ -1,0 +1,25 @@
+name: Add tag of squad to each PR
+
+on:
+  pull_request:
+    types: [opened]
+
+jobs:
+  label:
+    runs-on: ubuntu-20.04
+    steps:
+      - name: Checkout Source
+        uses: actions/checkout@v2
+        with:
+          fetch-depth: "0"
+
+      - uses: srvaroa/labeler@master
+        with:
+          config_path: .github/workflows/create-squad-tag-in-pr.yml
+        env:
+          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+        version: 1
+        labels:
+          - label: "User Squad"
+            files:
+              - "src/squads/user/**"
