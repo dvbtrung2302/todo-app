@@ -14,7 +14,7 @@ jobs:
       - name: Get Squads Membership
         id: joined_squads
         env:
-          USERNAME: ${{ github.event.pull_request.user.login }}
+          USERNAME: ${{ github.actor }}
         run: |
           bash ${GITHUB_WORKSPACE}/.github/workflows/labeler.bash
 
@@ -45,7 +45,6 @@ jobs:
         with:
           labels: |
             squad-payment
-
 
       - if: ${{ contains(steps.joined_squads.outputs.squads, 'syllabus') }}
         name: Squad Syllabus Labeling
