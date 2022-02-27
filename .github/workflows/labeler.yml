@@ -1,20 +1,62 @@
-name: Add tag of squad to each PR
+name: Add label of squad to each PR
 
 on:
   pull_request:
 
 jobs:
-  label:
+  add-label-of-squad:
     runs-on: ubuntu-20.04
     steps:
       - name: Checkout Source
         uses: actions/checkout@v2
         with:
           fetch-depth: "0"
+      - name: Get Squads Membership
+        id: joined_squads
+        env:
+          USERNAME: ${{ github.event.pull_request.user.login }}
+        run: |
+          bash ${GITHUB_WORKSPACE}/.github/workflows/labeler.bash
 
-      - if: ${{ contains('dvbtrung2302', github.event.pull_request.user.login) }}
-        name: Squad User Labeling
+      - if: ${{ contains(steps.joined_squads.outputs.squads, 'communication') }}
+        name: Squad Communication Labeling
         uses: actions-ecosystem/action-add-labels@v1
         with:
           labels: |
-            Squad User
+            squad-communication
+
+      - if: ${{ contains(steps.joined_squads.outputs.squads, 'entry-exit') }}
+        name: Squad Entry Exit Labeling
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: |
+            squad-entry-exit
+
+      - if: ${{ contains(steps.joined_squads.outputs.squads, 'lesson') }}
+        name: Squad Lesson Labeling
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: |
+            squad-lesson
+
+      - if: ${{ contains(steps.joined_squads.outputs.squads, 'payment') }}
+        name: Squad Payment Labeling
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: |
+            squad-payment
+
+
+      - if: ${{ contains(steps.joined_squads.outputs.squads, 'syllabus') }}
+        name: Squad Syllabus Labeling
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: |
+            squad-syllabus
+
+      - if: ${{ contains(steps.joined_squads.outputs.squads, 'user') }}
+        name: Squad User Management Labeling
+        uses: actions-ecosystem/action-add-labels@v1
+        with:
+          labels: |
+            squad-user-management
