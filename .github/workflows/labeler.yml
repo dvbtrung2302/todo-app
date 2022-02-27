@@ -12,8 +12,9 @@ jobs:
         with:
           fetch-depth: "0"
 
-      - uses: srvaroa/labeler@master
+      - if: ${{ contains('dvbtrung2302', github.event.pull_request.user.login) }}
+        name: Squad User Labeling
+        uses: actions-ecosystem/action-add-labels@v1
         with:
-          config_path: .github/labeler_config.yml
-        env:
-          GITHUB_TOKEN: "${{ secrets.GITHUB_TOKEN }}"
+          labels: |
+            Squad User
