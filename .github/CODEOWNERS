@@ -18,8 +18,8 @@ src/squads/payment/** @binh1298 @minhhy2801 @ptthanh0606 @trinhdungbk @mickoange
 src/squads/entry-exit/** @chrstnnglc @gabrielbrrll
 
 # Common components, hooks
-src/components/** @vctqs1 @phi0411141 @minhhy2801 @binh1298 @Nguyen-Quang-Khai
-src/hooks/** @vctqs1 @phi0411141 @minhhy2801 @binh1298 @Nguyen-Quang-Khai
+src/components/** @vctqs1 @phi0411141 @minhhy2801 @binh1298 @Nguyen-Quang-Khai @dvbtrung2302
+src/hooks/** @vctqs1 @phi0411141 @minhhy2801 @binh1298 @Nguyen-Quang-Khai @dvbtrung2302
 
 # Global style
-src/styles/** @minhhy2801 @binh1298 @Nguyen-Quang-Khai
+src/styles/** @minhhy2801 @binh1298 @Nguyen-Quang-Khai @dvbtrung2302
