@@ -2,6 +2,7 @@ name: Add label of squad to each PR
 
 on:
   pull_request:
+    types: [opened]
 
 jobs:
   add-label-of-squad:
@@ -9,14 +10,13 @@ jobs:
     steps:
       - name: Checkout Source
         uses: actions/checkout@v2
-        with:
-          fetch-depth: "0"
+      
       - name: Get Squads Membership
         id: joined_squads
         env:
           USERNAME: ${{ github.actor }}
         run: |
-          bash ${GITHUB_WORKSPACE}/.github/workflows/labeler.bash
+          bash ${GITHUB_WORKSPACE}/.github/scripts/create-squad-label-for-PR.bash
 
       - if: ${{ contains(steps.joined_squads.outputs.squads, 'communication') }}
         name: Squad Communication Labeling
